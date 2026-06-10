@@ -1,0 +1,4 @@
+{
+    "dotnet.defaultSolution": "LinearRegression.sln",
+    "python.terminal.useEnvFile": true
+}
