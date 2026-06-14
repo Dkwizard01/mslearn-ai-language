@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+from pathlib import Path
 import os
 from azure.identity import DefaultAzureCredential
 from azure.ai.textanalytics import TextAnalyticsClient
@@ -11,12 +12,9 @@ def main():
         # Get Configuration Settings
         load_dotenv()
         foundry_endpoint = os.getenv('FOUNDRY_ENDPOINT')
-        
-
         credential = DefaultAzureCredential(exclude_managed_identity_credential=True)
         ai_client = TextAnalyticsClient(foundry_endpoint, credential)
-
-        reviews_folder = 'reviews'
+        reviews_folder = Path(__file__).parent/'reviews'
         for file_name in os.listdir(reviews_folder):
             # Read the file contents
             print('\n-------------\n' + file_name)

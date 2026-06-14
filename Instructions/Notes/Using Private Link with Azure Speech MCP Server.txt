@@ -1,0 +1,21 @@
+https://aiskillsfestnew.PRIVATELINK.blob.core.windows.net/agent-storage-2?sp=racwl&st=2026-06-12T07:08:02Z&se=2026-06-12T15:23:02Z&spr=https&sv=2026-02-06&sr=c&sig=d4YOoHrl0koAqgvmCrHAj0Yi4wqfKUrsEz%2B3Syk9IXM%3D
+
+
+
+
+
+privatelink.blob.core.windows.net
+
+https://privatelink.blob.core.windows.net/agent-storage-2?sp=racwl&st=2026-06-12T17:28:42Z&se=2026-06-13T01:43:42Z&spr=https&sv=2026-02-06&sr=c&sig=h5bm4zXPztKDcH8rl5HYLzJTRxx6rWvzsmOHEaJhjHE%3D
+
+This configuration produces:
+
+ "output": "Error: Retry failed after 6 tries. Retry settings can be adjusted in ClientOptions.Retry or by configuring a custom retry policy in ClientOptions.RetryPolicy. (Name or service not known (privatelink.blob.core.windows.net:443)) (Name or service not known (privatelink.blob.core.windows.net:443)) (Name or service not known (privatelink.blob.core.windows.net:443)) (Name or service not known (privatelink.blob.core.windows.net:443)) (Name or service not known (privatelink.blob.core.windows.net:443)) (Name or service not known (privatelink.blob.core.windows.net:443))\n"
+
+https://aiskillsfestnew.privatelink.blob.core.windows.net/agent-storage-2?sp=racwl&st=2026-06-12T17:28:42Z&se=2026-06-13T01:43:42Z&spr=https&sv=2026-02-06&sr=c&sig=h5bm4zXPztKDcH8rl5HYLzJTRxx6rWvzsmOHEaJhjHE%3D
+
+This configuration produces:
+
+ "Error: Retry failed after 6 tries. Retry settings can be adjusted in ClientOptions.Retry or by configuring a custom retry policy in ClientOptions.RetryPolicy. (The SSL connection could not be established, see inner exception.) (The SSL connection could not be established, see inner exception.) (The SSL connection could not be established, see inner exception.) (The SSL connection could not be established, see inner exception.) (The SSL connection could not be established, see inner exception.) (The SSL connection could not be established, see inner exception.)\n"
+
+https://aiskillsfestnew.privatelink.blob.core.windows.net/agent-storage-2?sp=racwl&st=2026-06-12T17:28:42Z&se=2026-06-13T01:43:42Z&sv=2026-02-06&sr=c&sig=wXSzlEBUZIYoxNY%2FA%2FT9vkoMp%2B9SoOLJ2q5nNUiKHNU%3D

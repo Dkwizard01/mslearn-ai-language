@@ -1,9 +1,6 @@
 from dotenv import load_dotenv
 import os
 
-# Import namespaces
-
-
 
 def main():
     try:
@@ -14,8 +11,6 @@ def main():
         load_dotenv()
         foundry_endpoint = os.getenv('FOUNDRY_ENDPOINT')
         agent_name = os.getenv('AGENT_NAME')
-        
-        # Get project client
         
         
         
