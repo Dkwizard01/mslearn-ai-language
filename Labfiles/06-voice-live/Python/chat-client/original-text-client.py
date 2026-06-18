@@ -4,9 +4,11 @@ import base64
 import queue
 from dotenv import load_dotenv
 import pyaudio
-from azure.identity.aio import DefaultAzureCredential
+# import namespaces
+from azure.identity.aio import AzureCliCredential
 from azure.ai.voicelive.aio import connect
 from azure.ai.voicelive.models import (
+    AgentConfig,
     InputAudioFormat,
     Modality,
     OutputAudioFormat,
@@ -14,11 +16,13 @@ from azure.ai.voicelive.models import (
     ServerEventType,
     AudioNoiseReduction,
     AudioEchoCancellation,
-    AzureSemanticVadMultilingual,
-    AgentConfig
+    AzureSemanticVadMultilingual
 ) 
 def main():
+    """Main entry point."""
+
     try:
+        # Clear the console
         os.system('cls' if os.name == 'nt' else 'clear')
 
         # Get required configuration from environment variables
@@ -27,20 +31,23 @@ def main():
         agent_name = os.environ.get("AZURE_VOICELIVE_AGENT_ID")
         project_name = os.environ.get("AZURE_VOICELIVE_PROJECT_NAME")
         agent_config = AgentConfig({ "agent_name": agent_name, "project_name": project_name })
-        # Create credential for authentication
-        credential = DefaultAzureCredential()
+        credential = AzureCliCredential()
         
         # Create and start the voice assistant
         assistant = VoiceAssistant(
             endpoint=endpoint,
             credential=credential,
-            agent_config=agent_config
+            agent_config = agent_config
         )
         
+        # Run the assistant
         try:
             asyncio.run(assistant.start())
         except KeyboardInterrupt:
-            print("\nGoodbye!")
+            # Exit if the user enters CTRL+C
+            print("\n👋 Goodbye!")
+
+
     except Exception as e:
         print(f"An error occurred: {e}")
 
@@ -61,8 +68,10 @@ class VoiceAssistant:
         self.endpoint = endpoint
         self.credential = credential
         self.agent_config = agent_config
+
     
     async def start(self):
+        """Start the voice assistant."""
         print("\n" + "=" *60)
         print(f"{self.agent_config['agent_name']}")
         print("="* 60)
@@ -87,12 +96,13 @@ class VoiceAssistant:
                 # STEP 4: Start audio systems
                 self.audio_processor.start_playback()
         
-                print("\nReady! Start speaking...")
+                print("\n✅ Ready! Start speaking...")
                 print("Press Ctrl+C to exit\n")
                 
                 # STEP 5: Process events
                 await self.process_events()
-
+        except Exception as e:
+            print(f"An error occurred: {e}")
         finally:
             if hasattr(self, 'audio_processor'):
                 self.audio_processor.shutdown()
@@ -120,12 +130,15 @@ class VoiceAssistant:
         await self.connection.session.update(session=session_config)
         print("Session configured")
     
-    async def process_events(self):        
+    async def process_events(self):
+        """Process events from the VoiceLive service."""
+        
         # Listen for events from the service
         async for event in self.connection:
             await self.handle_event(event)
     
-async def handle_event(self, event):
+    async def handle_event(self, event):
+        """Handle different event types from the service."""
         
         # Session is ready - start capturing audio
         if event.type == ServerEventType.SESSION_UPDATED:
@@ -138,12 +151,12 @@ async def handle_event(self, event):
         
         # Agent is responding with audio transcript
         elif event.type == ServerEventType.RESPONSE_AUDIO_TRANSCRIPT_DONE:
-            print(f'🤖 Agent: {event.get("transcript", "")}')
+            print(f'Agent: {event.get("transcript", "")}')
         
         # User started speaking (interrupt any playing audio)
         elif event.type == ServerEventType.INPUT_AUDIO_BUFFER_SPEECH_STARTED:
             self.audio_processor.clear_playback_queue()
-            print(" Listening...")
+            print("Listening...")
         
         # User stopped speaking
         elif event.type == ServerEventType.INPUT_AUDIO_BUFFER_SPEECH_STOPPED:
@@ -155,11 +168,11 @@ async def handle_event(self, event):
         
         # Audio response complete
         elif event.type == ServerEventType.RESPONSE_AUDIO_DONE:
-            print("✓ Response complete\n")
+            print("Response complete\n")
         
         # Handle errors
         elif event.type == ServerEventType.ERROR:
-            print(f" Error: {event.error.message}")
+            print(f"Error: {event.error.message}")
 
 
 # AudioProcessor class - handles microphone input and speaker output using PyAudio
@@ -210,7 +223,7 @@ class AudioProcessor:
             frames_per_buffer=self.chunk_size,
             stream_callback=capture_callback
         )
-        print("🎤 Microphone started")
+        print("Microphone started")
     
     def start_playback(self):
         """Start audio playback system."""
@@ -252,7 +265,7 @@ class AudioProcessor:
             frames_per_buffer=self.chunk_size,
             stream_callback=playback_callback
         )
-        print("🔊 Speakers ready")
+        print("Speakers ready")
     
     def queue_audio(self, audio_data):
         """Add audio data to the playback queue."""
