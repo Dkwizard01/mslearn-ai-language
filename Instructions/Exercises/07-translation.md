@@ -280,7 +280,6 @@ Now you're ready to use Azure Speech to implement text translation.
         print(f"{translation_language}: '{translations[translation_language]}'")
 
         speech_cfg.speech_synthesis_voice_name = voices.get(translation_language)
-        audio_out_cfg = speech_sdk.audio.AudioOutputConfig(use_default_speaker=True)
         speech_synthesizer = speech_sdk.SpeechSynthesizer(speech_cfg, audio_out_cfg)
         speak = speech_synthesizer.speak_text_async(translations[translation_language]).get()
         
